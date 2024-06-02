@@ -22,10 +22,9 @@ pipeline {
                 sh 'docker push hillol111/projectfinance:v1'
                 }
             }
-        }
-     stage('Deploy') {
+     stage('Deploy on Ansible') {
             steps {
-                sh 'sudo docker run -itd --name financeproject -p 8088:8081 hillol111/projectfinance:v1'
+                ansiblePlaybook become: true, credentialsId: 'Ansible', disableHostKeyChecking: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/home/ubuntu/star-agile-banking-finance/ansible-playbook.yml', vaultTmpPath: ''
                 }
             }
     }
