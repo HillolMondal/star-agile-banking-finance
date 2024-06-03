@@ -12,14 +12,14 @@ pipeline {
                     sh 'docker build -t hillol111/projectfinance .'
             }
         }
-        stage('login docker hub'){
-            steps{
-                withCredentials([usernamePassword(credentialsId: 'hillol111', passwordVariable: 'Pass', usernameVariable: 'dockerhub-pass')])
-                sh "echo $Pass | docker login -u $dockerhub-pass --password-stdin"
+        stage('login docker hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')])
+                sh "echo $PASS | docker login -u $USER --password-stdin"
                 }
             }
- stage('docker tag and push'){
-            steps{
+ stage('docker tag and push') {
+            steps {
                 sh 'docker tag projectfinance hillol111/projectfinance:v1'
                 sh 'docker push hillol111/projectfinance:v1'
                 }
