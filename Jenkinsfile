@@ -9,16 +9,18 @@ pipeline {
         }
         stage('Build docker image'){
             steps{
-                script{
-                    sh 'docker build -t hillol111/projectfinance:v1 .'
-                    sh 'docker images'
-                }
+                    sh 'docker build -t hillol111/projectfinance .'
             }
         }
         stage('login docker hub'){
             steps{
                 withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'dockerhub-pass')])
                 sh 'docker login -u hillol111 -p ${dockerhub-pass}'
+                }
+            }
+ stage('docker tag and push'){
+            steps{
+                sh 'docker tag projectfinance hillol111/projectfinance:v1'
                 sh 'docker push hillol111/projectfinance:v1'
                 }
             }
