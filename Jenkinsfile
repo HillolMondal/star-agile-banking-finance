@@ -17,10 +17,12 @@ pipeline {
         }
         stage('login docker hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')])
-                sh "echo $PASS | docker login -u $USER --password-stdin"
-                sh 'docker push hillol111/projectfinance:v1'
+                script{
+                  withCredentials([usernamePassword(credentialsId: 'dockerhub-pwd', passwordVariable: 'PASS', usernameVariable: 'USER')])
+                     sh "echo $PASS | docker login -u $USER --password-stdin"
+                     sh 'docker push hillol111/projectfinance:v1'
                 }
+            }
             }
      stage('Deploy on Ansible') {
             steps {
